@@ -4,6 +4,9 @@
 import { useState, useEffect } from "react";
 import { Montserrat } from "next/font/google";
 
+import ProductCard from "./product-card";
+import { Footer } from "./footer";
+
 const montserrat = Montserrat({
   weight: "400",
   subsets: ["cyrillic", "latin"],
@@ -69,12 +72,6 @@ import compareIcon from "./icons/compare-icon.svg";
 import userIcon from "./icons/user-icon.png";
 
 // Payment & Social
-import vkIcon from "./icons/social/vk-icon.png";
-import instagramIcon from "./icons/social/instagram-icon.png";
-import facebookIcon from "./icons/social/facebook-icon.png";
-import visaIcon from "./icons/social/visa-icon.png";
-import mastercardIcon from "./icons/social/mastercard-icon.png";
-import mirIcon from "./icons/social/mir-icon.png";
 
 export function Hero() {
   const [promoIndex, setPromoIndex] = useState(0);
@@ -359,7 +356,8 @@ export function Hero() {
               <input
                 type="text"
                 placeholder="Поиск товаров и брендов..."
-                className="w-full pl-4 pr-12 py-2.5 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                // Добавил min-w-0 и truncate
+                className="w-full min-w-0 pl-4 pr-12 py-2.5 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors truncate"
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 p-2 rounded-md transition-colors">
                 <Image
@@ -565,15 +563,6 @@ export function Hero() {
 
         {/* Advantages */}
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-blue-600 to-cyan-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: "url('/pattern.svg')",
-                backgroundSize: "40px 40px",
-              }}
-            />
-          </div>
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -628,35 +617,11 @@ export function Hero() {
                   {products
                     .slice(sectionIdx * 4 + 4, sectionIdx * 4 + 8)
                     .map((product) => (
-                      <div
+                      <ProductCard
                         key={product.id}
-                        className="group bg-gray-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                      >
-                        <div className="relative aspect-square overflow-hidden">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        </div>
-                        <div className="p-5">
-                          <h3 className="font-bold text-lg mb-2">
-                            {product.name}
-                          </h3>
-                          <p className="text-gray-600 text-sm mb-3">
-                            {product.desc}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-2xl font-bold text-blue-600">
-                              {product.price}
-                            </span>
-                            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                              В корзину
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                        product={product}
+                        isHit={false}
+                      />
                     ))}
                 </div>
               </div>
@@ -689,138 +654,7 @@ export function Hero() {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-            <div className="lg:col-span-1">
-              <Image
-                src={logoSrc}
-                alt="GIDRATOP"
-                width={150}
-                height={50}
-                className="mb-4 brightness-0 invert"
-              />
-              <p className="text-sm mb-4">Мы в социальных сетях</p>
-              <div className="flex gap-3 mb-6">
-                {[vkIcon, instagramIcon, facebookIcon].map((icon, idx) => (
-                  <a
-                    key={idx}
-                    href="#"
-                    className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
-                  >
-                    <Image
-                      src={icon}
-                      alt="social"
-                      width={18}
-                      height={18}
-                      className="brightness-0 invert"
-                    />
-                  </a>
-                ))}
-              </div>
-              <p className="text-sm mb-3">Мы принимаем</p>
-              <div className="flex gap-2">
-                {[visaIcon, mastercardIcon, mirIcon].map((icon, idx) => (
-                  <Image
-                    key={idx}
-                    src={icon}
-                    alt="payment"
-                    width={40}
-                    height={25}
-                    className="object-contain"
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-white font-bold mb-4">ПОКУПАТЕЛЮ</h3>
-              <ul className="space-y-2 text-sm">
-                {[
-                  "Доставка",
-                  "Оплата",
-                  "Гарантии и возврат",
-                  "Производители",
-                  "Статьи",
-                ].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-white transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-white font-bold mb-4">КОМПАНИЯМ</h3>
-              <ul className="space-y-2 text-sm">
-                {[
-                  "О нас",
-                  "Контакты",
-                  "Пользовательское соглашение",
-                  "Политика конфиденциальности",
-                ].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-white transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-white font-bold mb-4">КОНТАКТЫ</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="text-white font-semibold">8(800)880-00-00</li>
-                <li>
-                  <a
-                    href="mailto:zakaz@gidratop.ru"
-                    className="hover:text-white"
-                  >
-                    zakaz@gidratop.ru
-                  </a>
-                </li>
-                <li>
-                  г. Санкт-Петербург,
-                  <br />
-                  пр-кт. Непосида, д.39
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-white font-bold mb-4">Подписка</h3>
-              <p className="text-sm mb-4">Получайте информацию об акциях</p>
-              <div className="flex flex-col gap-2">
-                <input
-                  type="email"
-                  placeholder="Ваш e-mail"
-                  className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none text-white"
-                />
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                  Подписаться
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm">© 2023 GIDRATOP. Все права защищены.</p>
-            <div className="flex gap-6 text-sm">
-              <a href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
