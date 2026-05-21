@@ -1,0 +1,826 @@
+// app/page.jsx
+"use client";
+
+import { useState, useEffect } from "react";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  weight: "400",
+  subsets: ["cyrillic", "latin"],
+});
+
+import Image from "next/image";
+
+// Logo
+import logoSrc from "./photos/logo.png";
+
+// Promotions
+import promotion1 from "./photos/promotions/promotion1.jpg";
+import promotion2 from "./photos/promotions/promotion2.jpg";
+import promotion3 from "./photos/promotions/promotion3.jpg";
+
+// Categories
+import sinks from "./photos/categories/sinks.png";
+import toilets from "./photos/categories/toilets.png";
+import installationSystems from "./photos/categories/installation-systems.png";
+import bathtubs from "./photos/categories/bathtubs.png";
+import bathroomFurniture from "./photos/categories/bathroom-furniture.png";
+import showerEnclosures from "./photos/categories/shower-enclosures.png";
+import bathroomAccessories from "./photos/categories/bathroom-accessories.png";
+
+// Products
+import product1 from "./photos/products/product1.jpg";
+import product2 from "./photos/products/product2.jpg";
+import product3 from "./photos/products/product3.jpg";
+import product4 from "./photos/products/product4.jpg";
+import product5 from "./photos/products/product5.jpg";
+import product6 from "./photos/products/product6.jpg";
+import product7 from "./photos/products/product7.jpg";
+import product8 from "./photos/products/product8.jpg";
+import product9 from "./photos/products/product9.jpg";
+import product10 from "./photos/products/product10.jpg";
+import product11 from "./photos/products/product11.jpg";
+import product12 from "./photos/products/product12.jpg";
+import product13 from "./photos/products/product13.jpg";
+import product14 from "./photos/products/product14.jpg";
+import product15 from "./photos/products/product15.jpg";
+import product16 from "./photos/products/product16.jpg";
+
+// Brands
+import villeroyBoch from "./photos/brands/villeroy-boch.png";
+import jacobDelafon from "./photos/brands/jacob-delafon.png";
+import hansgrohe from "./photos/brands/hansgrohe.png";
+import grohe from "./photos/brands/grohe.png";
+import capani from "./photos/brands/capani.png";
+import ampm from "./photos/brands/am-pm.png";
+
+// Icons
+import deliveryIcon from "./icons/delivery-icon.svg";
+import serviceIcon from "./icons/service-icon.svg";
+import assemblyIcon from "./icons/assembly-icon.png";
+import accessoriesIcon from "./icons/accessories-icon.svg";
+import guaranteeIcon from "./icons/guarantee-icon.svg";
+import discountIcon from "./icons/discount-icon.svg";
+import filterIcon from "./icons/filter-icon.svg";
+import searchIcon from "./icons/search-icon.svg";
+import cartIcon from "./icons/cart-icon.svg";
+import favoritesIcon from "./icons/favorites-icon.svg";
+import compareIcon from "./icons/compare-icon.svg";
+import userIcon from "./icons/user-icon.png";
+
+// Payment & Social
+import vkIcon from "./icons/social/vk-icon.png";
+import instagramIcon from "./icons/social/instagram-icon.png";
+import facebookIcon from "./icons/social/facebook-icon.png";
+import visaIcon from "./icons/social/visa-icon.png";
+import mastercardIcon from "./icons/social/mastercard-icon.png";
+import mirIcon from "./icons/social/mir-icon.png";
+
+export function Hero() {
+  const [promoIndex, setPromoIndex] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [wasClicked, setWasClicked] = useState(false);
+
+  const promotions = [
+    {
+      title: "Зимняя распродажа",
+      subtitle: "АКСЕССУАРЫ -15%",
+      image: promotion1,
+    },
+    {
+      title: "Hansgrohe",
+      subtitle: "Немецкое качество по доступным ценам",
+      image: promotion2,
+    },
+    {
+      title: "5% скидка",
+      subtitle: "На все комплекты сантехники",
+      image: promotion3,
+    },
+  ];
+
+  const categories = [
+    { name: "Раковины", image: sinks },
+    { name: "Унитазы", image: toilets },
+    { name: "Системы инсталляции", image: installationSystems },
+    { name: "Ванны", image: bathtubs },
+    { name: "Мебель для ванных", image: bathroomFurniture },
+    { name: "Душевые ограждения", image: showerEnclosures },
+    { name: "Аксессуары", image: bathroomAccessories },
+  ];
+
+  const products = [
+    {
+      id: 1,
+      name: "Раковина Oval",
+      desc: "Керамическая раковина",
+      price: "10 000 ₽",
+      image: product1,
+    },
+    {
+      id: 2,
+      name: "Смеситель Grohe",
+      desc: "Хромированный",
+      price: "12 500 ₽",
+      image: product2,
+    },
+    {
+      id: 3,
+      name: "Ванна Akvatek",
+      desc: "Акриловая 170x70",
+      price: "25 000 ₽",
+      image: product3,
+    },
+    {
+      id: 4,
+      name: "Унитаз Roca",
+      desc: "Напольный с бачком",
+      price: "18 900 ₽",
+      image: product4,
+    },
+    {
+      id: 5,
+      name: "Душевая кабина",
+      desc: "90x90 см",
+      price: "32 000 ₽",
+      image: product5,
+    },
+    {
+      id: 6,
+      name: "Зеркало с подсветкой",
+      desc: "80x60 см",
+      price: "15 500 ₽",
+      image: product6,
+    },
+    {
+      id: 7,
+      name: "Полотенцесушитель",
+      desc: "Электрический",
+      price: "8 900 ₽",
+      image: product7,
+    },
+    {
+      id: 8,
+      name: "Сифон для раковины",
+      desc: "Хром",
+      price: "1 200 ₽",
+      image: product8,
+    },
+    {
+      id: 9,
+      name: "Инсталляция Geberit",
+      desc: "Для унитаза",
+      price: "14 000 ₽",
+      image: product9,
+    },
+    {
+      id: 10,
+      name: "Душевой поддон",
+      desc: "120x80 см",
+      price: "9 500 ₽",
+      image: product10,
+    },
+    {
+      id: 11,
+      name: "Смеситель для ванны",
+      desc: "С душем",
+      price: "7 800 ₽",
+      image: product11,
+    },
+    {
+      id: 12,
+      name: "Шкафчик для ванной",
+      desc: "Подвесной",
+      price: "11 200 ₽",
+      image: product12,
+    },
+    {
+      id: 13,
+      name: "Мыльница",
+      desc: "Керамическая",
+      price: "890 ₽",
+      image: product13,
+    },
+    {
+      id: 14,
+      name: "Держатель для полотенец",
+      desc: "Нержавеющая сталь",
+      price: "2 100 ₽",
+      image: product14,
+    },
+    {
+      id: 15,
+      name: "Полка угловая",
+      desc: "Стекло",
+      price: "3 400 ₽",
+      image: product15,
+    },
+    {
+      id: 16,
+      name: "Комплект аксессуаров",
+      desc: "5 предметов",
+      price: "5 600 ₽",
+      image: product16,
+    },
+  ];
+
+  const brands = [
+    { name: "Villeroy & Boch", image: villeroyBoch },
+    { name: "Jacob Delafon", image: jacobDelafon },
+    { name: "Hansgrohe", image: hansgrohe },
+    { name: "GROHE", image: grohe },
+    { name: "Capani", image: capani },
+    { name: "AM-PM", image: ampm },
+  ];
+
+  const advantages = [
+    {
+      icon: deliveryIcon,
+      title: "Быстрая доставка",
+      desc: "Доставим в удобное время",
+    },
+    {
+      icon: serviceIcon,
+      title: "Поддержка 24/7",
+      desc: "Поможем на всех этапах",
+    },
+    { icon: assemblyIcon, title: "Самовывоз", desc: "Заберите из офиса" },
+    {
+      icon: accessoriesIcon,
+      title: "Большой выбор",
+      desc: "Более 10 000 товаров",
+    },
+    {
+      icon: guaranteeIcon,
+      title: "Гарантия качества",
+      desc: "Только сертифицированная продукция",
+    },
+    { icon: discountIcon, title: "Скидки", desc: "Постоянным клиентам" },
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!wasClicked) {
+        setPromoIndex((prev) => (prev + 1) % promotions.length);
+      }
+      setWasClicked(false);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [promotions.length, wasClicked]);
+
+  const nextPromo = () => {
+    setPromoIndex((prev) => (prev + 1) % promotions.length);
+    setWasClicked(true);
+  };
+
+  const prevPromo = () => {
+    setPromoIndex((prev) => (prev - 1 + promotions.length) % promotions.length);
+    setWasClicked(true);
+  };
+
+  return (
+    <div
+      className={`min-h-screen bg-linear-to-br from-slate-50 to-blue-50 select-none ${montserrat.className}`}
+    >
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <Image
+                src={logoSrc}
+                alt="GIDRATOP"
+                width={150}
+                height={50}
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              {[
+                "Производители",
+                "Гарантии",
+                "Доставка",
+                "Оплата",
+                "Контакты",
+              ].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm"
+                >
+                  {item}
+                </a>
+              ))}
+            </nav>
+
+            {/* User Actions */}
+            <div className="flex items-center space-x-6">
+              <a
+                href="/login"
+                className="hidden sm:block text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                Вход / Регистрация
+              </a>
+              <div className="relative cursor-pointer group">
+                <Image
+                  src={userIcon}
+                  alt="Cart"
+                  width={28}
+                  height={28}
+                  className="group-hover:scale-110 transition-transform"
+                />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Catalog Bar */}
+      <section className="bg-white border-b border-gray-200 py-4 select-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <button className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+              <Image src={filterIcon} alt="Filter" width={20} height={20} />
+              <span className="font-semibold cursor-pointer">
+                Каталог товаров
+              </span>
+            </button>
+
+            <div className="flex-1 max-w-2xl relative text-gray-800">
+              <input
+                type="text"
+                placeholder="Поиск товаров и брендов..."
+                className="w-full pl-4 pr-12 py-2.5 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+              />
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 p-2 rounded-md transition-colors">
+                <Image
+                  src={searchIcon}
+                  alt="Search"
+                  width={18}
+                  height={18}
+                  className="text-white"
+                />
+              </button>
+            </div>
+
+            <div className="hidden md:flex items-center space-x-6">
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-xs text-gray-500">Мы на связи:</p>
+                <p className="font-bold text-gray-900 select-text">
+                  8-800-000-00-00
+                </p>
+              </div>
+              {[
+                { icon: favoritesIcon, label: "Избранное" },
+                { icon: compareIcon, label: "Сравнение" },
+                { icon: cartIcon, label: "Корзина" },
+              ].map(({ icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  className="flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors group"
+                >
+                  <Image
+                    src={icon}
+                    alt={label}
+                    width={24}
+                    height={24}
+                    className="group-hover:scale-110 transition-transform"
+                  />
+                  <span className="text-xs mt-1">{label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        {/* Hero Slider */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-10 bg-linear-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              Акции и предложения
+            </h2>
+
+            <div className="relative">
+              <div className="overflow-hidden rounded-2xl shadow-2xl">
+                <div
+                  className="flex transition-transform duration-700 ease-out"
+                  style={{ transform: `translateX(-${promoIndex * 100}%)` }}
+                >
+                  {promotions.map((promo, idx) => (
+                    <div key={idx} className="w-full shrink-0">
+                      <div className="relative h-100 md:h-125">
+                        <Image
+                          src={promo.image}
+                          alt={promo.title}
+                          fill
+                          className="object-cover"
+                          priority={idx === 0}
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
+                          <h3 className="text-3xl md:text-5xl font-bold mb-3">
+                            {promo.title}
+                          </h3>
+                          <p className="text-xl md:text-2xl text-gray-200">
+                            {promo.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={prevPromo}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all hover:scale-110"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={nextPromo}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all hover:scale-110"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              <div className="flex justify-center gap-2 mt-6">
+                {promotions.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setPromoIndex(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${idx === promoIndex ? "w-8 bg-blue-600" : "w-2 bg-gray-300"}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Categories */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">
+              Популярные категории
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {categories.map((cat, idx) => (
+                <div key={idx} className="group cursor-pointer">
+                  <div className="relative overflow-hidden rounded-xl shadow-lg aspect-square mb-3">
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                  </div>
+                  <h3 className="text-center font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                    {cat.name}
+                  </h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Products Grid */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">
+              Хиты продаж
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.slice(0, 4).map((product) => (
+                <div
+                  key={product.id}
+                  className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                >
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      HIT
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg mb-2 text-gray-800">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3">{product.desc}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-bold text-blue-600">
+                        {product.price}
+                      </span>
+                      <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg">
+                        Купить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Advantages */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-blue-600 to-cyan-600 text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: "url('/pattern.svg')",
+                backgroundSize: "40px 40px",
+              }}
+            />
+          </div>
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold mb-6">
+                  Мы помогаем найти лучшее решение для вашей ванной
+                </h2>
+                <div className="flex gap-8">
+                  <div className="text-center">
+                    <div className="text-5xl font-bold mb-2">2K+</div>
+                    <div className="text-blue-100">довольных клиентов</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-5xl font-bold mb-2">30+</div>
+                    <div className="text-blue-100">брендов</div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                {advantages.map((adv, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white/10 backdrop-blur-sm rounded-xl p-5 hover:bg-white/20 transition-colors"
+                  >
+                    <Image
+                      src={adv.icon}
+                      alt={adv.title}
+                      width={40}
+                      height={40}
+                      className="mb-3"
+                    />
+                    <h3 className="font-bold mb-2">{adv.title}</h3>
+                    <p className="text-sm text-blue-100">{adv.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* More Products Sections */}
+        {["Товары со скидкой", "Новинки недели", "Рекомендуем купить"].map(
+          (title, sectionIdx) => (
+            <section
+              key={title}
+              className="py-12 px-4 sm:px-6 lg:px-8 bg-white"
+            >
+              <div className="max-w-7xl mx-auto">
+                <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">
+                  {title}
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {products
+                    .slice(sectionIdx * 4 + 4, sectionIdx * 4 + 8)
+                    .map((product) => (
+                      <div
+                        key={product.id}
+                        className="group bg-gray-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      >
+                        <div className="relative aspect-square overflow-hidden">
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-5">
+                          <h3 className="font-bold text-lg mb-2">
+                            {product.name}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-3">
+                            {product.desc}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-2xl font-bold text-blue-600">
+                              {product.price}
+                            </span>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                              В корзину
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </section>
+          ),
+        )}
+
+        {/* Brands */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">
+              Популярные бренды
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {brands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow flex items-center justify-center"
+                >
+                  <Image
+                    src={brand.image}
+                    alt={brand.name}
+                    width={120}
+                    height={60}
+                    className="object-contain grayscale hover:grayscale-0 transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-300 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+            <div className="lg:col-span-1">
+              <Image
+                src={logoSrc}
+                alt="GIDRATOP"
+                width={150}
+                height={50}
+                className="mb-4 brightness-0 invert"
+              />
+              <p className="text-sm mb-4">Мы в социальных сетях</p>
+              <div className="flex gap-3 mb-6">
+                {[vkIcon, instagramIcon, facebookIcon].map((icon, idx) => (
+                  <a
+                    key={idx}
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  >
+                    <Image
+                      src={icon}
+                      alt="social"
+                      width={18}
+                      height={18}
+                      className="brightness-0 invert"
+                    />
+                  </a>
+                ))}
+              </div>
+              <p className="text-sm mb-3">Мы принимаем</p>
+              <div className="flex gap-2">
+                {[visaIcon, mastercardIcon, mirIcon].map((icon, idx) => (
+                  <Image
+                    key={idx}
+                    src={icon}
+                    alt="payment"
+                    width={40}
+                    height={25}
+                    className="object-contain"
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-white font-bold mb-4">ПОКУПАТЕЛЮ</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  "Доставка",
+                  "Оплата",
+                  "Гарантии и возврат",
+                  "Производители",
+                  "Статьи",
+                ].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="hover:text-white transition-colors">
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-white font-bold mb-4">КОМПАНИЯМ</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  "О нас",
+                  "Контакты",
+                  "Пользовательское соглашение",
+                  "Политика конфиденциальности",
+                ].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="hover:text-white transition-colors">
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-white font-bold mb-4">КОНТАКТЫ</h3>
+              <ul className="space-y-2 text-sm">
+                <li className="text-white font-semibold">8(800)880-00-00</li>
+                <li>
+                  <a
+                    href="mailto:zakaz@gidratop.ru"
+                    className="hover:text-white"
+                  >
+                    zakaz@gidratop.ru
+                  </a>
+                </li>
+                <li>
+                  г. Санкт-Петербург,
+                  <br />
+                  пр-кт. Непосида, д.39
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-white font-bold mb-4">Подписка</h3>
+              <p className="text-sm mb-4">Получайте информацию об акциях</p>
+              <div className="flex flex-col gap-2">
+                <input
+                  type="email"
+                  placeholder="Ваш e-mail"
+                  className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none text-white"
+                />
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                  Подписаться
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm">© 2023 GIDRATOP. Все права защищены.</p>
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="hover:text-white transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Terms of Service
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
