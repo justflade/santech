@@ -1,11 +1,11 @@
 import Image from "next/image";
-import vkIcon from "./icons/social/vk-icon.png";
-import instagramIcon from "./icons/social/instagram-icon.png";
-import facebookIcon from "./icons/social/facebook-icon.png";
-import visaIcon from "./icons/social/visa-icon.png";
-import mastercardIcon from "./icons/social/mastercard-icon.png";
-import mirIcon from "./icons/social/mir-icon.png";
-import logoSrc from "./photos/logo.png";
+import vkIcon from "../../media/icons/social/vk-icon.png";
+import instagramIcon from "../../media/icons/social/instagram-icon.png";
+import facebookIcon from "../../media/icons/social/facebook-icon.png";
+import visaIcon from "../../media/icons/social/visa-icon.png";
+import mastercardIcon from "../../media/icons/social/mastercard-icon.png";
+import mirIcon from "../../media/icons/social/mir-icon.png";
+import logoSrc from "../../media/photos/logo.png";
 
 export function Footer() {
   return (

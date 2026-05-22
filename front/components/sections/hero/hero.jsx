@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import { Montserrat } from "next/font/google";
 
 import ProductCard from "./product-card";
-import { Footer } from "./footer";
+import { Footer } from "@/components/ui/footer";
+import { Header } from "@/components/ui/header";
 
 const montserrat = Montserrat({
   weight: "400",
@@ -15,61 +16,60 @@ const montserrat = Montserrat({
 import Image from "next/image";
 
 // Logo
-import logoSrc from "./photos/logo.png";
+import logoSrc from "../../media/photos/logo.png";
 
 // Promotions
-import promotion1 from "./photos/promotions/promotion1.jpg";
-import promotion2 from "./photos/promotions/promotion2.jpg";
-import promotion3 from "./photos/promotions/promotion3.jpg";
+import promotion1 from "../../media/photos/promotions/promotion1.jpg";
+import promotion2 from "../../media/photos/promotions/promotion2.jpg";
+import promotion3 from "../../media/photos/promotions/promotion3.jpg";
 
 // Categories
-import sinks from "./photos/categories/sinks.png";
-import toilets from "./photos/categories/toilets.png";
-import installationSystems from "./photos/categories/installation-systems.png";
-import bathtubs from "./photos/categories/bathtubs.png";
-import bathroomFurniture from "./photos/categories/bathroom-furniture.png";
-import showerEnclosures from "./photos/categories/shower-enclosures.png";
-import bathroomAccessories from "./photos/categories/bathroom-accessories.png";
+import sinks from "../../media/photos/categories/sinks.png";
+import toilets from "../../media/photos/categories/toilets.png";
+import installationSystems from "../../media/photos/categories/installation-systems.png";
+import bathtubs from "../../media/photos/categories/bathtubs.png";
+import bathroomFurniture from "../../media/photos/categories/bathroom-furniture.png";
+import showerEnclosures from "../../media/photos/categories/shower-enclosures.png";
+import bathroomAccessories from "../../media/photos/categories/bathroom-accessories.png";
 
 // Products
-import product1 from "./photos/products/product1.jpg";
-import product2 from "./photos/products/product2.jpg";
-import product3 from "./photos/products/product3.jpg";
-import product4 from "./photos/products/product4.jpg";
-import product5 from "./photos/products/product5.jpg";
-import product6 from "./photos/products/product6.jpg";
-import product7 from "./photos/products/product7.jpg";
-import product8 from "./photos/products/product8.jpg";
-import product9 from "./photos/products/product9.jpg";
-import product10 from "./photos/products/product10.jpg";
-import product11 from "./photos/products/product11.jpg";
-import product12 from "./photos/products/product12.jpg";
-import product13 from "./photos/products/product13.jpg";
-import product14 from "./photos/products/product14.jpg";
-import product15 from "./photos/products/product15.jpg";
-import product16 from "./photos/products/product16.jpg";
+import product1 from "../../media/photos/products/product1.jpg";
+import product2 from "../../media/photos/products/product2.jpg";
+import product3 from "../../media/photos/products/product3.jpg";
+import product4 from "../../media/photos/products/product4.jpg";
+import product5 from "../../media/photos/products/product5.jpg";
+import product6 from "../../media/photos/products/product6.jpg";
+import product7 from "../../media/photos/products/product7.jpg";
+import product8 from "../../media/photos/products/product8.jpg";
+import product9 from "../../media/photos/products/product9.jpg";
+import product10 from "../../media/photos/products/product10.jpg";
+import product11 from "../../media/photos/products/product11.jpg";
+import product12 from "../../media/photos/products/product12.jpg";
+import product13 from "../../media/photos/products/product13.jpg";
+import product14 from "../../media/photos/products/product14.jpg";
+import product15 from "../../media/photos/products/product15.jpg";
+import product16 from "../../media/photos/products/product16.jpg";
 
 // Brands
-import villeroyBoch from "./photos/brands/villeroy-boch.png";
-import jacobDelafon from "./photos/brands/jacob-delafon.png";
-import hansgrohe from "./photos/brands/hansgrohe.png";
-import grohe from "./photos/brands/grohe.png";
-import capani from "./photos/brands/capani.png";
-import ampm from "./photos/brands/am-pm.png";
+import villeroyBoch from "../../media/photos/brands/villeroy-boch.png";
+import jacobDelafon from "../../media/photos/brands/jacob-delafon.png";
+import hansgrohe from "../../media/photos/brands/hansgrohe.png";
+import grohe from "../../media/photos/brands/grohe.png";
+import capani from "../../media/photos/brands/capani.png";
+import ampm from "../../media/photos/brands/am-pm.png";
 
 // Icons
-import deliveryIcon from "./icons/delivery-icon.svg";
-import serviceIcon from "./icons/service-icon.svg";
-import assemblyIcon from "./icons/assembly-icon.png";
-import accessoriesIcon from "./icons/accessories-icon.svg";
-import guaranteeIcon from "./icons/guarantee-icon.svg";
-import discountIcon from "./icons/discount-icon.svg";
-import filterIcon from "./icons/filter-icon.svg";
-import searchIcon from "./icons/search-icon.svg";
-import cartIcon from "./icons/cart-icon.svg";
-import favoritesIcon from "./icons/favorites-icon.svg";
-import compareIcon from "./icons/compare-icon.svg";
-import userIcon from "./icons/user-icon.png";
+import deliveryIcon from "../../media/icons/delivery-icon.svg";
+import serviceIcon from "../../media/icons/service-icon.svg";
+import assemblyIcon from "../../media/icons/assembly-icon.png";
+import accessoriesIcon from "../../media/icons/accessories-icon.svg";
+import guaranteeIcon from "../../media/icons/guarantee-icon.svg";
+import discountIcon from "../../media/icons/discount-icon.svg";
+import filterIcon from "../../media/icons/filter-icon.svg";
+import searchIcon from "../../media/icons/search-icon.svg";
+import cartIcon from "../../media/icons/cart-icon.svg";
+import favoritesIcon from "../../media/icons/favorites-icon.svg";
+import compareIcon from "../../media/icons/compare-icon.svg";
 
 // Payment & Social
 
@@ -280,66 +280,7 @@ export function Hero() {
       className={`min-h-screen bg-linear-to-br from-slate-50 to-blue-50 select-none ${montserrat.className}`}
     >
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <Image
-                src={logoSrc}
-                alt="GIDRATOP"
-                width={150}
-                height={50}
-                className="object-contain"
-                priority
-              />
-            </div>
-
-            {/* Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
-              {[
-                "Производители",
-                "Гарантии",
-                "Доставка",
-                "Оплата",
-                "Контакты",
-              ].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm"
-                >
-                  {item}
-                </a>
-              ))}
-            </nav>
-
-            {/* User Actions */}
-            <div className="flex items-center space-x-6">
-              <a
-                href="/login"
-                className="hidden sm:block text-gray-700 hover:text-blue-600 font-medium transition-colors"
-              >
-                Вход / Регистрация
-              </a>
-              <div className="relative cursor-pointer group">
-                <Image
-                  src={userIcon}
-                  alt="Cart"
-                  width={28}
-                  height={28}
-                  className="group-hover:scale-110 transition-transform"
-                />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header cartCount={cartCount} />
 
       {/* Catalog Bar */}
       <section className="bg-white border-b border-gray-200 py-4 select-none">
@@ -423,6 +364,7 @@ export function Hero() {
                           src={promo.image}
                           alt={promo.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 90vw"
                           className="object-cover"
                           priority={idx === 0}
                         />
@@ -505,6 +447,7 @@ export function Hero() {
                       src={cat.image}
                       alt={cat.name}
                       fill
+                      sizes="30vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
@@ -535,6 +478,7 @@ export function Hero() {
                       src={product.image}
                       alt={product.name}
                       fill
+                      sizes="100vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
