@@ -15,9 +15,6 @@ const montserrat = Montserrat({
 
 import Image from "next/image";
 
-// Logo
-import logoSrc from "../../media/photos/logo.png";
-
 // Promotions
 import promotion1 from "../../media/photos/promotions/promotion1.jpg";
 import promotion2 from "../../media/photos/promotions/promotion2.jpg";

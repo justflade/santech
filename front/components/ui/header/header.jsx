@@ -1,14 +1,20 @@
 import Image from "next/image";
 import userIcon from "../../media/icons/user-icon.png";
 import logoSrc from "../../media/photos/logo.png";
+import { useRouter } from "next/router";
 
 export function Header({ cartCount }) {
+  const router = useRouter();
+
   return (
     <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => router.push("/")}
+          >
             <Image
               src={logoSrc}
               alt="GIDRATOP"
@@ -22,18 +28,18 @@ export function Header({ cartCount }) {
           {/* Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {[
-              "Производители",
-              "Гарантии",
-              "Доставка",
-              "Оплата",
-              "Контакты",
+              { name: "Производители", href: "/brands" },
+              { name: "Гарантии", href: "/guarantees" },
+              { name: "Доставка", href: "/delivery" },
+              { name: "Оплата", href: "/payment" },
+              { name: "Контакты", href: "/contacts" },
             ].map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.name}
+                href={item.href}
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm"
               >
-                {item}
+                {item.name}
               </a>
             ))}
           </nav>
