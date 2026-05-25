@@ -1,5 +1,5 @@
 import { Brands } from "@/components/sections/brands";
 
-export default function Home() {
+export default function BrandsPage() {
   return <Brands />;
 }

@@ -32,7 +32,6 @@ export function Header({ cartCount }) {
               { name: "Гарантии", href: "/guarantees" },
               { name: "Доставка", href: "/delivery" },
               { name: "Оплата", href: "/payment" },
-              { name: "Контакты", href: "/contacts" },
             ].map((item) => (
               <a
                 key={item.name}
