@@ -1,2 +1,1 @@
 SECRET_KEY = "9a193fea-7981-4dc4-8a25-84b24b5d742e"
-

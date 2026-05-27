@@ -34,3 +34,4 @@ backend/yarn-error.log*
 # Общие
 .DS_Store
 *.pem
+.vscode

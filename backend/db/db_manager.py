@@ -3,6 +3,7 @@ from typing import Optional, List, Dict, Any
 
 DB_PATH = "db\\database.db"
 
+
 class DatabaseManager:
     def __init__(self, db_path: str = DB_PATH):
         self.db_path = db_path
@@ -17,10 +18,7 @@ class DatabaseManager:
             await self._connection.close()
 
     async def execute(
-        self,
-        query: str,
-        parameters: Optional[tuple] = None,
-        commit: bool = False
+        self, query: str, parameters: Optional[tuple] = None, commit: bool = False
     ) -> Optional[aiosqlite.Cursor]:
         cursor = await self._connection.cursor()
         if parameters:
@@ -32,9 +30,7 @@ class DatabaseManager:
         return cursor
 
     async def fetch_one(
-        self,
-        query: str,
-        parameters: Optional[tuple] = None
+        self, query: str, parameters: Optional[tuple] = None
     ) -> Optional[Dict[str, Any]]:
         cursor = await self.execute(query, parameters)
         result = await cursor.fetchone()
@@ -42,9 +38,7 @@ class DatabaseManager:
         return dict(result) if result else None
 
     async def fetch_all(
-        self,
-        query: str,
-        parameters: Optional[tuple] = None
+        self, query: str, parameters: Optional[tuple] = None
     ) -> List[Dict[str, Any]]:
         cursor = await self.execute(query, parameters)
         results = await cursor.fetchall()
@@ -52,10 +46,7 @@ class DatabaseManager:
         return [dict(row) for row in results]
 
     async def execute_many(
-        self,
-        query: str,
-        parameters_list: List[tuple],
-        commit: bool = True
+        self, query: str, parameters_list: List[tuple], commit: bool = True
     ):
         cursor = await self._connection.cursor()
         await cursor.executemany(query, parameters_list)
@@ -63,11 +54,7 @@ class DatabaseManager:
             await self._connection.commit()
         await cursor.close()
 
-    async def insert(
-        self,
-        query: str,
-        parameters: tuple
-    ) -> int:
+    async def insert(self, query: str, parameters: tuple) -> int:
         cursor = await self.execute(query, parameters, commit=True)
         last_row_id = cursor.lastrowid
         await cursor.close()
