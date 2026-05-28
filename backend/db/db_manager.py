@@ -1,7 +1,8 @@
 import aiosqlite
 from typing import Optional, List, Dict, Any
+from pathlib import Path
 
-DB_PATH = "db\\database.db"
+DB_PATH = Path(__file__).parent.parent / "db" / "db.db"
 
 
 class DatabaseManager:
