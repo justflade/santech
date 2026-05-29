@@ -47,6 +47,25 @@ import product14 from "../../media/photos/products/product14.jpg";
 import product15 from "../../media/photos/products/product15.jpg";
 import product16 from "../../media/photos/products/product16.jpg";
 
+const PRODUCT_IMAGES = {
+  1: product1,
+  2: product2,
+  3: product3,
+  4: product4,
+  5: product5,
+  6: product6,
+  7: product7,
+  8: product8,
+  9: product9,
+  10: product10,
+  11: product11,
+  12: product12,
+  13: product13,
+  14: product14,
+  15: product15,
+  16: product16,
+};
+
 // Brands
 import villeroyBoch from "../../media/photos/brands/villeroy-boch.png";
 import jacobDelafon from "../../media/photos/brands/jacob-delafon.png";
@@ -75,9 +94,12 @@ export function Hero() {
   const [cartCount, setCartCount] = useState(0);
   const [wasClicked, setWasClicked] = useState(false);
 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const promotions = [
     {
-      title: "Зимняя распродажа",
+      title: "Летняя распродажа",
       subtitle: "АКСЕССУАРЫ -15%",
       image: promotion1,
     },
@@ -101,121 +123,6 @@ export function Hero() {
     { name: "Мебель для ванных", image: bathroomFurniture },
     { name: "Душевые ограждения", image: showerEnclosures },
     { name: "Аксессуары", image: bathroomAccessories },
-  ];
-
-  const products = [
-    {
-      id: 1,
-      name: "Раковина Oval",
-      desc: "Керамическая раковина",
-      price: "10 000 ₽",
-      image: product1,
-    },
-    {
-      id: 2,
-      name: "Смеситель Grohe",
-      desc: "Хромированный",
-      price: "12 500 ₽",
-      image: product2,
-    },
-    {
-      id: 3,
-      name: "Ванна Akvatek",
-      desc: "Акриловая 170x70",
-      price: "25 000 ₽",
-      image: product3,
-    },
-    {
-      id: 4,
-      name: "Унитаз Roca",
-      desc: "Напольный с бачком",
-      price: "18 900 ₽",
-      image: product4,
-    },
-    {
-      id: 5,
-      name: "Душевая кабина",
-      desc: "90x90 см",
-      price: "32 000 ₽",
-      image: product5,
-    },
-    {
-      id: 6,
-      name: "Зеркало с подсветкой",
-      desc: "80x60 см",
-      price: "15 500 ₽",
-      image: product6,
-    },
-    {
-      id: 7,
-      name: "Полотенцесушитель",
-      desc: "Электрический",
-      price: "8 900 ₽",
-      image: product7,
-    },
-    {
-      id: 8,
-      name: "Сифон для раковины",
-      desc: "Хром",
-      price: "1 200 ₽",
-      image: product8,
-    },
-    {
-      id: 9,
-      name: "Инсталляция Geberit",
-      desc: "Для унитаза",
-      price: "14 000 ₽",
-      image: product9,
-    },
-    {
-      id: 10,
-      name: "Душевой поддон",
-      desc: "120x80 см",
-      price: "9 500 ₽",
-      image: product10,
-    },
-    {
-      id: 11,
-      name: "Смеситель для ванны",
-      desc: "С душем",
-      price: "7 800 ₽",
-      image: product11,
-    },
-    {
-      id: 12,
-      name: "Шкафчик для ванной",
-      desc: "Подвесной",
-      price: "11 200 ₽",
-      image: product12,
-    },
-    {
-      id: 13,
-      name: "Мыльница",
-      desc: "Керамическая",
-      price: "890 ₽",
-      image: product13,
-    },
-    {
-      id: 14,
-      name: "Держатель для полотенец",
-      desc: "Нержавеющая сталь",
-      price: "2 100 ₽",
-      image: product14,
-    },
-    {
-      id: 15,
-      name: "Полка угловая",
-      desc: "Стекло",
-      price: "3 400 ₽",
-      image: product15,
-    },
-    {
-      id: 16,
-      name: "Комплект аксессуаров",
-      desc: "5 предметов",
-      price: "5 600 ₽",
-      image: product16,
-    },
   ];
 
   const brands = [
@@ -271,6 +178,33 @@ export function Hero() {
     setPromoIndex((prev) => (prev - 1 + promotions.length) % promotions.length);
     setWasClicked(true);
   };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/api/products");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+
+        // Мёржим: данные с бэка + картинка из локального маппинга по ID
+        const merged = data.data.map((p) => ({
+          id: p.id,
+          name: p.name,
+          desc: p.description, // бэк отдаёт "description"
+          price: `${p.price.toLocaleString("ru-RU")} ₽`, // 10000 → "10 000 ₽"
+          image: PRODUCT_IMAGES[p.id] || product1, // фоллбэк, если вдруг нет
+        }));
+        setProducts(merged);
+      } catch (err) {
+        console.error("Products fetch error:", err);
+        // ⚠️ Фоллбэк на хардкод при ошибке (чтобы демка не ломалась)
+        setProducts(hardcodedProducts);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <div
@@ -465,39 +399,60 @@ export function Hero() {
               Хиты продаж
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.slice(0, 4).map((product) => (
-                <div
-                  key={product.id}
-                  className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-                >
-                  <div className="relative aspect-square overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="100vw"
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                      HIT
+              {loading
+                ? // === Skeleton-заглушки пока грузимся ===
+                  [...Array(4)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
+                    >
+                      <div className="aspect-square bg-gray-200" />
+                      <div className="p-5 space-y-3">
+                        <div className="h-5 bg-gray-200 rounded w-3/4" />
+                        <div className="h-4 bg-gray-200 rounded w-1/2" />
+                        <div className="flex justify-between">
+                          <div className="h-6 bg-gray-200 rounded w-20" />
+                          <div className="h-9 bg-gray-200 rounded w-20" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-lg mb-2 text-gray-800">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-3">{product.desc}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-blue-600">
-                        {product.price}
-                      </span>
-                      <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg">
-                        Купить
-                      </button>
+                  ))
+                : // === Реальные товары ===
+                  products.slice(0, 4).map((product) => (
+                    <div
+                      key={product.id}
+                      className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                    >
+                      <div className="relative aspect-square overflow-hidden">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          sizes="100vw"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                          HIT
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-bold text-lg mb-2 text-gray-800">
+                          {product.name}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-3">
+                          {product.desc}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-blue-600">
+                            {product.price}
+                          </span>
+                          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg">
+                            Купить
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
             </div>
           </div>
         </section>
