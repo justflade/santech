@@ -1,32 +1,41 @@
 import Image from "next/image";
-import userIcon from "../../media/icons/user-icon.png";
-import logoSrc from "../../media/photos/logo.png";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { LogOut, User, LogIn } from "lucide-react"; // npm install lucide-react
+import useAuth from "@/components/hooks/useAuth";
 
-export function Header({ cartCount }) {
+import logoSrc from "../../media/photos/logo.png";
+
+export function Header() {
   const router = useRouter();
+  const { user, isAuthed, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+    router.refresh();
+  };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+    <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div
-            className="flex items-center space-x-2 cursor-pointer"
+            className="flex items-center cursor-pointer group"
             onClick={() => router.push("/")}
           >
             <Image
               src={logoSrc}
               alt="GIDRATOP"
-              width={150}
-              height={50}
-              className="object-contain"
+              width={140}
+              height={45}
+              className="object-contain transition-opacity group-hover:opacity-90"
               priority
             />
           </div>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-1">
             {[
               { name: "Производители", href: "/brands" },
               { name: "Гарантии", href: "/guarantees" },
@@ -36,7 +45,7 @@ export function Header({ cartCount }) {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm"
+                className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 rounded-lg font-medium transition-all duration-200 text-sm"
               >
                 {item.name}
               </a>
@@ -44,27 +53,36 @@ export function Header({ cartCount }) {
           </nav>
 
           {/* User Actions */}
-          <div className="flex items-center space-x-6">
-            <a
-              href="/login"
-              className="hidden sm:block text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Вход / Регистрация
-            </a>
-            <div className="relative cursor-pointer group">
-              <Image
-                src={userIcon}
-                alt="Cart"
-                width={28}
-                height={28}
-                className="group-hover:scale-110 transition-transform"
-              />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
-                  {cartCount}
+          <div className="flex items-center">
+            {isAuthed ? (
+              <div className="flex items-center space-x-3">
+                <span className="hidden sm:block text-gray-700 font-medium text-sm">
+                  {user?.name}
                 </span>
-              )}
-            </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-3 py-2 border border-gray-300 text-gray-700 hover:text-red-600 hover:border-red-300 hover:bg-red-50 rounded-lg font-medium transition-all duration-200 text-sm group"
+                  title="Выйти"
+                >
+                  <LogOut
+                    size={18}
+                    className="group-hover:scale-110 transition-transform"
+                  />
+                  <span className="hidden sm:inline">Выйти</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => router.push("/auth")}
+                className="flex items-center space-x-2 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-medium transition-all duration-200 text-sm shadow-sm hover:shadow group"
+              >
+                <LogIn
+                  size={18}
+                  className="group-hover:translate-x-0.5 transition-transform"
+                />
+                <span>Войти</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

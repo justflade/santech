@@ -91,7 +91,7 @@ import compareIcon from "../../media/icons/compare-icon.svg";
 
 export function Hero() {
   const [promoIndex, setPromoIndex] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(1);
   const [wasClicked, setWasClicked] = useState(false);
 
   const [products, setProducts] = useState([]);
